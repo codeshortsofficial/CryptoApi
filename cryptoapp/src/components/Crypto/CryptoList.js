@@ -1,6 +1,6 @@
-// CryptoList.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import debounce from 'lodash/debounce';
 
 const CryptoList = ({ onSelectCrypto }) => {
   const [cryptoList, setCryptoList] = useState([]);
@@ -23,9 +23,14 @@ const CryptoList = ({ onSelectCrypto }) => {
     }
   };
 
+  
+
+  // Use debounce to limit the number of API calls
+  const debouncedFetchCryptoList = useCallback(debounce(fetchCryptoList, 300), []);
+
   useEffect(() => {
-    fetchCryptoList(limit);
-  }, [limit]);
+    debouncedFetchCryptoList(limit);
+  }, [limit, debouncedFetchCryptoList]);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -38,6 +43,8 @@ const CryptoList = ({ onSelectCrypto }) => {
   if (error) {
     return <div>{error}</div>;
   }
+
+
 
   return (
     <div>
