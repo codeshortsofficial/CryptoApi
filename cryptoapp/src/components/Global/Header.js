@@ -1,8 +1,9 @@
 import React from 'react'
+import './global.css'
 
 function Header() {
   return (
-    <header className='headerSection'>header</header>
+    <header className='headerSection'></header>
   )
 }
 
